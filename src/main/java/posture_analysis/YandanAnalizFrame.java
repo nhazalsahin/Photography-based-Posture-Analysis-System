@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 
 
 public class YandanAnalizFrame extends javax.swing.JFrame {
+    
+    // Bunu Anterior'a vermek için saklıyoruz
     private String[] referansIsimleri = {
     "1- Tragus", 
     "2- Saç bitim çizgisi", 
@@ -26,13 +28,16 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
 
     };
     private int mevcutNoktaIndex = 0;
+    private String dosyaYolu;
     
     private java.util.List<java.awt.Point> noktalar = new java.util.ArrayList<>();
-    
+    private String karsidanProfilYolu;
     public YandanAnalizFrame() {
         initComponents();
     }
-    public YandanAnalizFrame(String dosyaYolu){
+    public YandanAnalizFrame(String yanYol, String onYol){
+        this.dosyaYolu = yanYol;
+        this.karsidanProfilYolu = onYol;
         initComponents();
         try {
         // Dosyanın bilgisayarda var olup olmadığını kontrol ederek açalım
@@ -41,7 +46,7 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
         if (dosya.exists()) {
             ImageIcon orijinalSimge = new ImageIcon(dosya.getAbsolutePath());
             // Senin istediğin 250x350 boyutuna getiriyoruz
-            Image ölçekliResim = orijinalSimge.getImage().getScaledInstance(400, 450, Image.SCALE_SMOOTH);
+            Image ölçekliResim = orijinalSimge.getImage().getScaledInstance(750, 450, Image.SCALE_SMOOTH);
             jLabel_yandan_foto.setIcon(new ImageIcon(ölçekliResim));
             jLabel_yandan_foto.setText(""); 
             this.revalidate();
@@ -67,7 +72,6 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel_referans = new javax.swing.JLabel();
-        jButton_ileri = new javax.swing.JButton();
         jButton_geri = new javax.swing.JButton();
         jLabel_yandan_foto = new javax.swing.JLabel() {
             @Override
@@ -83,6 +87,7 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
                 }
             }
         };
+        jButton_ileri = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,16 +100,6 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
         jLabel_referans.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel_referans.setForeground(new java.awt.Color(100, 255, 218));
         jLabel_referans.setText("1-Tragus");
-
-        jButton_ileri.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton_ileri.setIcon(new javax.swing.ImageIcon("C:\\Users\\nhaza\\OneDrive\\Documents\\NetBeansProjects\\Postur_Analizi\\src\\main\\java\\posture_analysis\\icons\\icons8-forward-50.png")); // NOI18N
-        jButton_ileri.setText("İLERİ");
-        jButton_ileri.setEnabled(false);
-        jButton_ileri.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_ileriActionPerformed(evt);
-            }
-        });
 
         jButton_geri.setIcon(new javax.swing.ImageIcon("C:\\Users\\nhaza\\OneDrive\\Documents\\NetBeansProjects\\Postur_Analizi\\src\\main\\java\\posture_analysis\\icons\\turn-left (1).png")); // NOI18N
         jButton_geri.setText("GERİ");
@@ -122,54 +117,59 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton_ileri.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton_ileri.setIcon(new javax.swing.ImageIcon("C:\\Users\\nhaza\\OneDrive\\Documents\\NetBeansProjects\\Postur_Analizi\\src\\main\\java\\posture_analysis\\icons\\icons8-forward-50.png")); // NOI18N
+        jButton_ileri.setText("İLERİ");
+        jButton_ileri.setEnabled(false);
+        jButton_ileri.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ileriActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(154, 154, 154))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel_referans)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton_geri)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_ileri)
-                        .addGap(139, 139, 139))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(238, 238, 238)
-                .addComponent(jLabel_yandan_foto)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel_referans))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton_geri)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 652, Short.MAX_VALUE)
+                                .addComponent(jButton_ileri))
+                            .addComponent(jLabel_yandan_foto))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(9, 9, 9)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel_referans)
-                        .addGap(71, 71, 71)
-                        .addComponent(jLabel_yandan_foto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 313, Short.MAX_VALUE)
-                        .addComponent(jButton_geri))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton_ileri, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jLabel_referans)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel_yandan_foto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_geri)
+                    .addComponent(jButton_ileri, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 752, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,29 +181,26 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
 
     private void jButton_ileriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ileriActionPerformed
         try {
-            String tamYol = "C:\\Users\\nhaza\\OneDrive\\Documents\\NetBeansProjects\\Postur_Analizi\\src\\main\\java\\posture_analysis\\icons\\rehber_ant.png";
+        String rehberYolu = "C:\\Users\\nhaza\\OneDrive\\Documents\\NetBeansProjects\\Postur_Analizi\\src\\main\\java\\posture_analysis\\icons\\rehber_ant.png";
+        java.io.File rehberDosya = new java.io.File(rehberYolu);
 
-            java.io.File dosya = new java.io.File(tamYol);
-
-            if (dosya.exists()) {
-                ImageIcon icon = new ImageIcon(dosya.getAbsolutePath());
-                // Senin istediğin 600x435 boyutuna getiriyoruz
-                Image img = icon.getImage().getScaledInstance(600, 435, Image.SCALE_SMOOTH);
-
-                JLabel lbl = new JLabel(new ImageIcon(img));
-                JOptionPane.showMessageDialog(this, lbl, "Analiz Rehberi", JOptionPane.PLAIN_MESSAGE);
-                AnteriorAnalizFrame anteriorAnaliz = new AnteriorAnalizFrame(tamYol, noktalar);
-                anteriorAnaliz.setVisible(true);
-                this.dispose();
-
-            } else {
-
-                System.out.println("Dosya fiziksel olarak yok: " + tamYol);
-                JOptionPane.showMessageDialog(this, "Rehber fotoğrafı belirtilen adreste bulunamadı!");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Rehber görselini pop-up olarak göster
+        if (rehberDosya.exists()) {
+            ImageIcon icon = new ImageIcon(rehberDosya.getAbsolutePath());
+            Image img = icon.getImage().getScaledInstance(600, 435, Image.SCALE_SMOOTH);
+            JLabel lbl = new JLabel(new ImageIcon(img));
+            JOptionPane.showMessageDialog(this, lbl, "Analiz Rehberi", JOptionPane.PLAIN_MESSAGE);
         }
+
+        AnteriorAnalizFrame anteriorAnaliz = new AnteriorAnalizFrame(this.dosyaYolu, this.karsidanProfilYolu, this.noktalar);
+        
+        anteriorAnaliz.setVisible(true);
+        this.dispose();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Geçiş sırasında hata: " + e.getMessage());
+    }
         
         
     }//GEN-LAST:event_jButton_ileriActionPerformed

@@ -34,6 +34,7 @@ public class PhotoFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -53,23 +54,50 @@ public class PhotoFrame extends javax.swing.JFrame {
         jPanel1.setToolTipText("");
         jPanel1.setMinimumSize(new java.awt.Dimension(600, 50));
         jPanel1.setPreferredSize(new java.awt.Dimension(612, 50));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("MingLiU-ExtB", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(100, 255, 218));
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\nhaza\\OneDrive\\Documents\\NetBeansProjects\\Postur_Analizi\\src\\main\\java\\posture_analysis\\icons\\photographer.png")); // NOI18N
         jLabel1.setText("FOTOGRAF EKLEME");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(37, 0, 0, 0);
+        jPanel1.add(jLabel1, gridBagConstraints);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Ayakta çekilmiş 2 fotoğrafınızı ekleyin.");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 11, 0, 0);
+        jPanel1.add(jLabel2, gridBagConstraints);
 
         jLabel_yandan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel_yandan.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_yandan.setText("YANDAN GÖRÜNÜM");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(36, 79, 0, 0);
+        jPanel1.add(jLabel_yandan, gridBagConstraints);
 
         jLabel_karsidan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel_karsidan.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_karsidan.setText("KARŞIDAN GÖRÜNÜM");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(36, 204, 0, 0);
+        jPanel1.add(jLabel_karsidan, gridBagConstraints);
 
         jButton_yandan.setBackground(new java.awt.Color(204, 214, 246));
         jButton_yandan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -79,6 +107,13 @@ public class PhotoFrame extends javax.swing.JFrame {
                 jButton_yandanActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 79, 0, 0);
+        jPanel1.add(jButton_yandan, gridBagConstraints);
 
         jButton_karsidan.setBackground(new java.awt.Color(204, 214, 246));
         jButton_karsidan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -88,10 +123,23 @@ public class PhotoFrame extends javax.swing.JFrame {
                 jButton_karsidanActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 204, 0, 0);
+        jPanel1.add(jButton_karsidan, gridBagConstraints);
 
         jLabel_sonuc.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel_sonuc.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_sonuc.setText("2 adet fotoğraf bekleniyor...");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(35, 21, 0, 0);
+        jPanel1.add(jLabel_sonuc, gridBagConstraints);
 
         jPanel2.setBackground(new java.awt.Color(10, 25, 47));
 
@@ -120,88 +168,38 @@ public class PhotoFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton_geri)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 443, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 526, Short.MAX_VALUE)
                 .addComponent(jButton_ileri)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jButton_geri))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_geri)
                     .addComponent(jButton_ileri, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8))
+                .addGap(6, 6, 6))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(79, 79, 79)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel_yandan)
-                    .addComponent(jButton_yandan))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel_karsidan, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton_karsidan, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(62, 62, 62))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(214, 214, 214)
-                        .addComponent(jLabel1)))
-                .addContainerGap(21, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(229, 229, 229))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel_sonuc)
-                        .addGap(228, 228, 228))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_karsidan)
-                    .addComponent(jLabel_yandan))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jButton_karsidan))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton_yandan)))
-                .addGap(28, 28, 28)
-                .addComponent(jLabel_sonuc)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 8;
+        gridBagConstraints.ipadx = 520;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(187, 6, 6, 5);
+        jPanel1.add(jPanel2, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
 
         pack();
@@ -241,9 +239,9 @@ public class PhotoFrame extends javax.swing.JFrame {
     } catch (Exception e) {
         e.printStackTrace();
     }
-       YandanAnalizFrame yandanAnaliz = new YandanAnalizFrame(yandanYol);
-       yandanAnaliz.setVisible(true);
-       this.dispose();
+        YandanAnalizFrame yandanAnaliz = new YandanAnalizFrame(this.yandanYol, this.karsidanYol);
+        yandanAnaliz.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton_ileriActionPerformed
 
     private void jButton_geriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_geriActionPerformed
@@ -296,13 +294,14 @@ public class PhotoFrame extends javax.swing.JFrame {
             labelKutusu.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
             
             if (!yandanYol.isEmpty() && !karsidanYol.isEmpty()) {
-                jButton_ileri.setEnabled(true);
-        
+            jButton_ileri.setEnabled(true);
+            }
+        // Bu iki satırı IF bloğunun dışına, metodun en sonuna al ki her yüklemede çalışsın:
         yuklenenFotoSayisi++;
         fotoDurumunuGuncelle();
-        }
-    }
-    }
+               }
+
+           }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_geri;

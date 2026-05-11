@@ -12,18 +12,22 @@ import java.util.List;
  * @author nhaza
  */
 public class YorumlaFrame extends javax.swing.JFrame {
-    private List<Point> yanNoktalar; // SonucFrame'den gelen yan noktalar
-    private List<Point> onNoktalar;  // SonucFrame'den gelen ön noktalar
+    private List<Point> yanNoktalar;
+    private List<Point> onNoktalar;
     private List<AnalizSonucu> gelenSonuclar;
-    String yol;
+    private String yanYol; // Yan fotoğraf yolu
+    private String onYol;  // Ön fotoğraf yolu
     
     public YorumlaFrame() {
         initComponents();
     }
-    public YorumlaFrame(List<AnalizSonucu> sonuclar,List<Point> yanNoktalar, List<Point> onNoktalar) {
+   public YorumlaFrame(List<AnalizSonucu> sonuclar, List<Point> yanNoktalar, List<Point> onNoktalar, String yanYolu, String onYolu) {
         this.gelenSonuclar = sonuclar;
         this.yanNoktalar = yanNoktalar;
         this.onNoktalar = onNoktalar;
+        this.yanYol = yanYolu;
+        this.onYol = onYolu;
+        
         initComponents();
         yorumlariDoldur();
     }
@@ -329,9 +333,9 @@ public class YorumlaFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel_basMouseEntered
 
     private void jButton_geriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_geriActionPerformed
-        SonucFrame sonucEkrani = new SonucFrame(this.yanNoktalar, this.onNoktalar,yol);
-        sonucEkrani.setVisible(true);
-        this.dispose();
+        SonucFrame sonucEkrani = new SonucFrame(yanNoktalar, onNoktalar, yanYol, onYol);
+    sonucEkrani.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_jButton_geriActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -389,7 +393,7 @@ public class YorumlaFrame extends javax.swing.JFrame {
         AnalizSonucu pelvisObliqSonuc = CalculatePosture.pelvikObliquityYorumla(onNoktalar);
         AnalizSonucu dizOnSonuc = CalculatePosture.dizDizilimiAnteriorYorumla(onNoktalar);
         
-        jLabel_bas_yorum.setText("<html>" + basSonuc.yorum + "<br>" + boyunTiltSonuc.yorum + "</html>");
+        jLabel_bas_yorum.setText("<html>" + basSonuc.yorum + "<br>" + boyunTiltSonuc.yorum + "<br>" + servikalSonuc.yorum + "</html>");
         jLabel_omuz_yorum.setText("<html>" + omuzProtSonuc.yorum + "<br>" + omuzSimSonuc.yorum + "</html>");
         jLabel_sirt_yorum.setText("<html>" + kifozSonuc.yorum + "</html>");
         jLabel_bel_yorum.setText("<html>" + lumbalSonuc.yorum + "</html>");

@@ -16,6 +16,9 @@ import javax.swing.JOptionPane;
 public class AnteriorAnalizFrame extends javax.swing.JFrame {
     private String gelenYol;
     private java.util.List<java.awt.Point> yanNoktalar;
+    private String yanYol;      
+    private String onYol;    
+
 
    private String[] referansIsimleri = { 
     "1- Çene", 
@@ -35,28 +38,27 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
     public AnteriorAnalizFrame() {
         initComponents();
     }
-    public AnteriorAnalizFrame(String dosyaYolu, java.util.List<java.awt.Point> yanNoktalar){
-        this.gelenYol = dosyaYolu;
+    public AnteriorAnalizFrame(String yanYol, String onYol, java.util.List<java.awt.Point> yanNoktalar) {
+        this.yanYol = yanYol;
+        this.onYol = onYol;
         this.yanNoktalar = yanNoktalar;
-        initComponents();
-        try {
-            java.io.File dosya = new java.io.File(dosyaYolu);
         
-        if (dosya.exists()) {
-            ImageIcon orijinalSimge = new ImageIcon(dosya.getAbsolutePath());
-            // Senin istediğin 250x350 boyutuna getiriyoruz
-            Image ölçekliResim = orijinalSimge.getImage().getScaledInstance(400, 450, Image.SCALE_SMOOTH);
-            jLabel_karsidan_foto.setIcon(new ImageIcon(ölçekliResim));
-            jLabel_karsidan_foto.setText(""); 
-            this.revalidate();
-            this.repaint();
-        } else {
-            System.out.println("Analiz için gönderilen dosya yolu bulunamadı: " + dosyaYolu);
-            jLabel_karsidan_foto.setText("Fotoğraf Yüklenemedi!");
+        initComponents(); 
+
+        // RESİM YÜKLEME: Bu sefer onYol değişkenini kullanıyoruz!
+        try {
+            java.io.File dosya = new java.io.File(this.onYol);
+            if (dosya.exists()) {
+                ImageIcon orijinalSimge = new ImageIcon(dosya.getAbsolutePath());
+                Image ölçekliResim = orijinalSimge.getImage().getScaledInstance(750, 500, Image.SCALE_SMOOTH);
+                jLabel_karsidan_foto.setIcon(new ImageIcon(ölçekliResim));
+                jLabel_karsidan_foto.setText(""); 
+                this.revalidate();
+                this.repaint();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
     }
 
     @SuppressWarnings("unchecked")
@@ -126,37 +128,37 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton_geri)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_ileri))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel_referans))
-                        .addGap(0, 227, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel_karsidan_foto)
-                .addGap(340, 340, 340))
+                            .addComponent(jLabel_referans)
+                            .addComponent(jLabel_karsidan_foto))
+                        .addContainerGap(489, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton_geri)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_ileri)
+                        .addGap(15, 15, 15))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel_referans)
-                .addGap(155, 155, 155)
-                .addComponent(jLabel_karsidan_foto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 285, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_ileri, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_geri))
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_ileri))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_referans)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_karsidan_foto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 499, Short.MAX_VALUE)
+                        .addComponent(jButton_geri)))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -178,6 +180,8 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
         // Sadece burada ekleme yapıyoruz
         noktalar.add(evt.getPoint());
         jLabel_karsidan_foto.repaint();
+        
+        System.out.println(referansIsimleri[mevcutNoktaIndex] + " İşaretlendi: " + evt.getPoint());
 
         mevcutNoktaIndex++;
 
@@ -188,20 +192,24 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
             jButton_ileri.setEnabled(true);
         }
         
-        System.out.println(referansIsimleri[mevcutNoktaIndex-1] + " İşaretlendi: " + evt.getPoint());
     }
     }//GEN-LAST:event_jLabel_karsidan_fotoMouseClicked
 
     private void jButton_ileriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ileriActionPerformed
-        SonucFrame sonuc = new SonucFrame(this.yanNoktalar, this.noktalar, this.gelenYol);
+       try {
+        // Tüm yolları ve noktaları SonucFrame'e paslıyoruz
+        SonucFrame sonuc = new SonucFrame(this.yanNoktalar, this.noktalar, this.yanYol, this.onYol);
         sonuc.setVisible(true);
         this.dispose();
-
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Hata: " + e.getMessage());
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_jButton_ileriActionPerformed
 
     private void jButton_geriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_geriActionPerformed
         // TODO add your handling code here:
-        YandanAnalizFrame yandan = new YandanAnalizFrame(gelenYol);
+        YandanAnalizFrame yandan = new YandanAnalizFrame(this.yanYol, this.onYol);
         yandan.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton_geriActionPerformed

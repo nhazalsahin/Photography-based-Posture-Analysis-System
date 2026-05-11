@@ -8,19 +8,22 @@ import java.util.List;
 public class SonucFrame extends javax.swing.JFrame {
     private List<Point> yanNoktalar;
     private List<Point> onNoktalar;
-    String dosyaYolu= "";
+    private String yanYol;   // Geri dönüş için saklıyoruz
+    private String onYol;    // Geri dönüş için saklıyoruz
     private List<AnalizSonucu> tumSonuclar = new java.util.ArrayList<>();
     
     public SonucFrame() {
         initComponents();
     }
-    public SonucFrame(List<Point> yan, List<Point> on,String yol) {
+    public SonucFrame(List<Point> yan, List<Point> on, String yanYolu, String onYolu) {
         this.yanNoktalar = yan;
         this.onNoktalar = on;
-        this.dosyaYolu=yol;
+        this.yanYol = yanYolu;
+        this.onYol = onYolu;
+        
         initComponents();
         analizVeGoster();
-}
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -334,14 +337,14 @@ public class SonucFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel_basMouseEntered
 
     private void jButton_ileriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ileriActionPerformed
-        YorumlaFrame yorumEkrani = new YorumlaFrame(tumSonuclar, yanNoktalar, onNoktalar);
+        YorumlaFrame yorumEkrani = new YorumlaFrame(tumSonuclar, yanNoktalar, onNoktalar, yanYol, onYol);
         yorumEkrani.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton_ileriActionPerformed
 
     private void jButton_geriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_geriActionPerformed
 
-        AnteriorAnalizFrame anteriorAnaliz = new AnteriorAnalizFrame(this.dosyaYolu, this.yanNoktalar);
+        AnteriorAnalizFrame anteriorAnaliz = new AnteriorAnalizFrame(this.yanYol, this.onYol, this.yanNoktalar);
         anteriorAnaliz.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton_geriActionPerformed
