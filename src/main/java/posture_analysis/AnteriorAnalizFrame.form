@@ -23,7 +23,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -43,24 +43,21 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel_referans" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel_karsidan_foto" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="489" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
                           <Component id="jButton_geri" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="543" max="-2" attributes="0"/>
                           <Component id="jButton_ileri" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_referans" min="-2" max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="0" min="-2" pref="752" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace pref="28" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -77,9 +74,9 @@
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                           <Component id="jLabel_referans" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                          <Component id="jLabel_karsidan_foto" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="499" max="32767" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" min="-2" pref="470" max="-2" attributes="0"/>
+                          <EmptySpace pref="45" max="32767" attributes="0"/>
                           <Component id="jButton_geri" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -111,20 +108,6 @@
             <Property name="text" type="java.lang.String" value="1-&#xc7;ene"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel_karsidan_foto">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="66" green="66" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Kullan&#x131;c&#x131; Yandan Foto"/>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel_karsidan_fotoMouseClicked"/>
-          </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JLabel() {&#xd;&#xa;    @Override&#xd;&#xa;    protected void paintComponent(java.awt.Graphics g) {&#xd;&#xa;        super.paintComponent(g);&#xd;&#xa;        if (noktalar != null) {&#xd;&#xa;            java.awt.Graphics2D g2d = (java.awt.Graphics2D) g;&#xd;&#xa;            g2d.setColor(java.awt.Color.GREEN);&#xd;&#xa;            g2d.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);&#xd;&#xa;            for (java.awt.Point p : noktalar) {&#xd;&#xa;                g2d.fillOval(p.x - 5, p.y - 5, 10, 10);&#xd;&#xa;            }&#xd;&#xa;        }&#xd;&#xa;    }&#xd;&#xa;}"/>
-          </AuxValues>
-        </Component>
         <Component class="javax.swing.JButton" name="jButton_ileri">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -151,6 +134,29 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_geriActionPerformed"/>
           </Events>
         </Component>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="jLabel_karsidan_foto">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="66" green="66" red="0" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Kullan&#x131;c&#x131; Yandan Foto"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="jLabel_karsidan_fotoMouseMoved"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel_karsidan_fotoMouseClicked"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel_karsidan_fotoMouseEntered"/>
+                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel_karsidan_fotoMouseExited"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="jLabel_karsidan_foto = new javax.swing.JLabel() {&#xd;&#xa;    @Override&#xd;&#xa;    protected void paintComponent(java.awt.Graphics g) {&#xd;&#xa;        super.paintComponent(g);&#xd;&#xa;        &#xd;&#xa;        // E&#x11f;er foto&#x11f;raf yoksa &#xe7;izim yapma&#xd;&#xa;        if (getIcon() == null) return;&#xd;&#xa;&#xd;&#xa;        java.awt.Graphics2D g2d = (java.awt.Graphics2D) g;&#xd;&#xa;        g2d.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);&#xd;&#xa;&#xd;&#xa;        // 1. &#xd6;nden Analiz &#x130;&#xe7;in &#x130;&#x15f;aretlenen Ye&#x15f;il Noktalar&#x131; &#xc7;iz&#xd;&#xa;        g2d.setColor(java.awt.Color.GREEN);&#xd;&#xa;        if (noktalar != null) {&#xd;&#xa;            for (java.awt.Point p : noktalar) {&#xd;&#xa;                g2d.fillOval(p.x - 5, p.y - 5, 10, 10);&#xd;&#xa;            }&#xd;&#xa;        }&#xd;&#xa;&#xd;&#xa;        // 2. B&#xfc;y&#xfc;te&#xe7; (Magnifier) &#xc7;izimi&#xd;&#xa;        if (showZoom) {&#xd;&#xa;            int diameter = ZOOM_SIZE; // 100 piksel&#xd;&#xa;            int radius = diameter / 2;&#xd;&#xa;            &#xd;&#xa;            // Yuvarlak kesim alan&#x131; olu&#x15f;tur&#xd;&#xa;            g2d.setClip(new java.awt.geom.Ellipse2D.Double(zoomX - radius, zoomY - radius, diameter, diameter));&#xd;&#xa;&#xd;&#xa;            // Resmi b&#xfc;y&#xfc;terek &#xe7;iz (ZOOM_FACTOR kadar)&#xd;&#xa;            Image img = ((ImageIcon)getIcon()).getImage();&#xd;&#xa;            g2d.drawImage(img, &#xd;&#xa;                zoomX - radius, zoomY - radius, zoomX + radius, zoomY + radius, &#xd;&#xa;                zoomX - radius/ZOOM_FACTOR, zoomY - radius/ZOOM_FACTOR, &#xd;&#xa;                zoomX + radius/ZOOM_FACTOR, zoomY + radius/ZOOM_FACTOR, &#xd;&#xa;                null);&#xd;&#xa;            &#xd;&#xa;            g2d.setClip(null); // Kesimi s&#x131;f&#x131;rla&#xd;&#xa;&#xd;&#xa;            // Beyaz &#xe7;er&#xe7;eve ve K&#x131;rm&#x131;z&#x131; hedef art&#x131;s&#x131;&#xd;&#xa;            g2d.setColor(java.awt.Color.WHITE);&#xd;&#xa;            g2d.setStroke(new java.awt.BasicStroke(2));&#xd;&#xa;            g2d.drawOval(zoomX - radius, zoomY - radius, diameter, diameter);&#xd;&#xa;            &#xd;&#xa;            g2d.setColor(java.awt.Color.RED);&#xd;&#xa;            g2d.drawLine(zoomX - 10, zoomY, zoomX + 10, zoomY);&#xd;&#xa;            g2d.drawLine(zoomX, zoomY - 10, zoomX, zoomY + 10);&#xd;&#xa;        }&#xd;&#xa;    }&#xd;&#xa;};"/>
+              </AuxValues>
+            </Component>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
   </SubComponents>

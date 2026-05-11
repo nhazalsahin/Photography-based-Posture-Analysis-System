@@ -17,7 +17,13 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
     private String gelenYol;
     private java.util.List<java.awt.Point> yanNoktalar;
     private String yanYol;      
-    private String onYol;    
+    private String onYol;
+    
+    
+    private int zoomX, zoomY;
+    private boolean showZoom = false;
+    private final int ZOOM_FACTOR = 2; // 2 kat büyütme
+    private final int ZOOM_SIZE = 100; // Büyüteç penceresinin boyutu
 
 
    private String[] referansIsimleri = { 
@@ -42,7 +48,7 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
         this.yanYol = yanYol;
         this.onYol = onYol;
         this.yanNoktalar = yanNoktalar;
-        
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         initComponents(); 
 
         // RESİM YÜKLEME: Bu sefer onYol değişkenini kullanıyoruz!
@@ -68,22 +74,57 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel_referans = new javax.swing.JLabel();
-        jLabel_karsidan_foto = new javax.swing.JLabel() {
+        jButton_ileri = new javax.swing.JButton();
+        jButton_geri = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jLabel_karsidan_foto = jLabel_karsidan_foto = new javax.swing.JLabel() {
             @Override
             protected void paintComponent(java.awt.Graphics g) {
                 super.paintComponent(g);
+
+                // Eğer fotoğraf yoksa çizim yapma
+                if (getIcon() == null) return;
+
+                java.awt.Graphics2D g2d = (java.awt.Graphics2D) g;
+                g2d.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // 1. Önden Analiz İçin İşaretlenen Yeşil Noktaları Çiz
+                g2d.setColor(java.awt.Color.GREEN);
                 if (noktalar != null) {
-                    java.awt.Graphics2D g2d = (java.awt.Graphics2D) g;
-                    g2d.setColor(java.awt.Color.GREEN);
-                    g2d.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
                     for (java.awt.Point p : noktalar) {
                         g2d.fillOval(p.x - 5, p.y - 5, 10, 10);
                     }
                 }
+
+                // 2. Büyüteç (Magnifier) Çizimi
+                if (showZoom) {
+                    int diameter = ZOOM_SIZE; // 100 piksel
+                    int radius = diameter / 2;
+
+                    // Yuvarlak kesim alanı oluştur
+                    g2d.setClip(new java.awt.geom.Ellipse2D.Double(zoomX - radius, zoomY - radius, diameter, diameter));
+
+                    // Resmi büyüterek çiz (ZOOM_FACTOR kadar)
+                    Image img = ((ImageIcon)getIcon()).getImage();
+                    g2d.drawImage(img, 
+                        zoomX - radius, zoomY - radius, zoomX + radius, zoomY + radius, 
+                        zoomX - radius/ZOOM_FACTOR, zoomY - radius/ZOOM_FACTOR, 
+                        zoomX + radius/ZOOM_FACTOR, zoomY + radius/ZOOM_FACTOR, 
+                        null);
+
+                    g2d.setClip(null); // Kesimi sıfırla
+
+                    // Beyaz çerçeve ve Kırmızı hedef artısı
+                    g2d.setColor(java.awt.Color.WHITE);
+                    g2d.setStroke(new java.awt.BasicStroke(2));
+                    g2d.drawOval(zoomX - radius, zoomY - radius, diameter, diameter);
+
+                    g2d.setColor(java.awt.Color.RED);
+                    g2d.drawLine(zoomX - 10, zoomY, zoomX + 10, zoomY);
+                    g2d.drawLine(zoomX, zoomY - 10, zoomX, zoomY + 10);
+                }
             }
         };
-        jButton_ileri = new javax.swing.JButton();
-        jButton_geri = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,14 +137,6 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
         jLabel_referans.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel_referans.setForeground(new java.awt.Color(100, 255, 218));
         jLabel_referans.setText("1-Çene");
-
-        jLabel_karsidan_foto.setBackground(new java.awt.Color(0, 102, 102));
-        jLabel_karsidan_foto.setText("Kullanıcı Yandan Foto");
-        jLabel_karsidan_foto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel_karsidan_fotoMouseClicked(evt);
-            }
-        });
 
         jButton_ileri.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton_ileri.setIcon(new javax.swing.ImageIcon("C:\\Users\\nhaza\\OneDrive\\Documents\\NetBeansProjects\\Postur_Analizi\\src\\main\\java\\posture_analysis\\icons\\icons8-forward-50.png")); // NOI18N
@@ -123,24 +156,42 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel_karsidan_foto.setBackground(new java.awt.Color(0, 102, 102));
+        jLabel_karsidan_foto.setText("Kullanıcı Yandan Foto");
+        jLabel_karsidan_foto.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jLabel_karsidan_fotoMouseMoved(evt);
+            }
+        });
+        jLabel_karsidan_foto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel_karsidan_fotoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel_karsidan_fotoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel_karsidan_fotoMouseExited(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jLabel_karsidan_foto);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel_referans)
-                            .addComponent(jLabel_karsidan_foto))
-                        .addContainerGap(489, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton_geri)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_ileri)
-                        .addGap(15, 15, 15))))
+                        .addGap(543, 543, 543)
+                        .addComponent(jButton_ileri))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel_referans)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,8 +206,8 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel_referans)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel_karsidan_foto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 499, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                         .addComponent(jButton_geri)))
                 .addGap(21, 21, 21))
         );
@@ -165,7 +216,7 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,6 +265,26 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton_geriActionPerformed
 
+    private void jLabel_karsidan_fotoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_karsidan_fotoMouseMoved
+        // TODO add your handling code here:
+        zoomX = evt.getX();
+        zoomY = evt.getY();
+        showZoom = true; // Tedbiren burada da true yapalım
+        jLabel_karsidan_foto.repaint();
+    }//GEN-LAST:event_jLabel_karsidan_fotoMouseMoved
+
+    private void jLabel_karsidan_fotoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_karsidan_fotoMouseEntered
+        // TODO add your handling code here:
+        showZoom = true;
+        jLabel_karsidan_foto.repaint();
+    }//GEN-LAST:event_jLabel_karsidan_fotoMouseEntered
+
+    private void jLabel_karsidan_fotoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_karsidan_fotoMouseExited
+        // TODO add your handling code here:
+        showZoom = false;
+        jLabel_karsidan_foto.repaint();
+    }//GEN-LAST:event_jLabel_karsidan_fotoMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -257,5 +328,6 @@ public class AnteriorAnalizFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_karsidan_foto;
     private javax.swing.JLabel jLabel_referans;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

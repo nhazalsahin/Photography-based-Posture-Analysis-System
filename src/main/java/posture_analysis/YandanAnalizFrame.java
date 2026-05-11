@@ -12,10 +12,15 @@ import javax.swing.JOptionPane;
 
 public class YandanAnalizFrame extends javax.swing.JFrame {
     
+    private int zoomX, zoomY;
+private boolean showZoom = false;
+private final int ZOOM_FACTOR = 2; // 2 kat büyütme
+private final int ZOOM_SIZE = 100; // Büyüteç penceresinin boyutu
+    
     // Bunu Anterior'a vermek için saklıyoruz
     private String[] referansIsimleri = {
     "1- Tragus", 
-    "2- Saç bitim çizgisi", 
+    "2- Boyun orta çukuru", 
     "3- Boyundaki en sivri omur", 
     "4- Omuz tepesi", 
     "5- Sırtın en şişkin noktası", 
@@ -23,7 +28,7 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
     "7- Kalça yanındaki sert kemik",
     "8- Leğen kemiği önündeki sivri kemik",
     "9- Diz eklem merkezi",
-    "10- Ayak bileği eklem merkezi"
+    "10- Ayak bileği yanındaki sivri çıkıntı"
 
 
     };
@@ -38,7 +43,10 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
     public YandanAnalizFrame(String yanYol, String onYol){
         this.dosyaYolu = yanYol;
         this.karsidanProfilYolu = onYol;
+        
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         initComponents();
+        
         try {
         // Dosyanın bilgisayarda var olup olmadığını kontrol ederek açalım
             java.io.File dosya = new java.io.File(dosyaYolu);
@@ -73,21 +81,53 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel_referans = new javax.swing.JLabel();
         jButton_geri = new javax.swing.JButton();
+        jButton_ileri = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jLabel_yandan_foto = new javax.swing.JLabel() {
             @Override
             protected void paintComponent(java.awt.Graphics g) {
                 super.paintComponent(g);
+                if (getIcon() == null) return;
+
+                java.awt.Graphics2D g2d = (java.awt.Graphics2D) g;
+                g2d.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // 1. İşaretlenen noktaları yeşil çiz
+                g2d.setColor(java.awt.Color.GREEN);
                 if (noktalar != null) {
-                    java.awt.Graphics2D g2d = (java.awt.Graphics2D) g;
-                    g2d.setColor(java.awt.Color.GREEN);
-                    g2d.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
                     for (java.awt.Point p : noktalar) {
                         g2d.fillOval(p.x - 5, p.y - 5, 10, 10);
                     }
                 }
+
+                // 2. Büyüteç (Magnifier) Çizimi
+                if (showZoom) {
+                    int diameter = 100; // Büyüteç çapı
+                    int radius = diameter / 2;
+
+                    // Yuvarlak kesim alanı oluştur
+                    g2d.setClip(new java.awt.geom.Ellipse2D.Double(zoomX - radius, zoomY - radius, diameter, diameter));
+
+                    // Resmi 2 kat büyüterek çiz
+                    Image img = ((ImageIcon)getIcon()).getImage();
+                    g2d.drawImage(img, 
+                        zoomX - radius, zoomY - radius, zoomX + radius, zoomY + radius, 
+                        zoomX - radius/2, zoomY - radius/2, zoomX + radius/2, zoomY + radius/2, 
+                        null);
+
+                    g2d.setClip(null); // Kesimi sıfırla
+
+                    // Beyaz çerçeve ve Kırmızı hedef artısı
+                    g2d.setColor(java.awt.Color.WHITE);
+                    g2d.setStroke(new java.awt.BasicStroke(2));
+                    g2d.drawOval(zoomX - radius, zoomY - radius, diameter, diameter);
+
+                    g2d.setColor(java.awt.Color.RED);
+                    g2d.drawLine(zoomX - 10, zoomY, zoomX + 10, zoomY);
+                    g2d.drawLine(zoomX, zoomY - 10, zoomX, zoomY + 10);
+                }
             }
         };
-        jButton_ileri = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,14 +149,6 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel_yandan_foto.setBackground(new java.awt.Color(0, 102, 102));
-        jLabel_yandan_foto.setText("Kullanıcı Yandan Foto");
-        jLabel_yandan_foto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel_yandan_fotoMouseClicked(evt);
-            }
-        });
-
         jButton_ileri.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton_ileri.setIcon(new javax.swing.ImageIcon("C:\\Users\\nhaza\\OneDrive\\Documents\\NetBeansProjects\\Postur_Analizi\\src\\main\\java\\posture_analysis\\icons\\icons8-forward-50.png")); // NOI18N
         jButton_ileri.setText("İLERİ");
@@ -126,6 +158,28 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
                 jButton_ileriActionPerformed(evt);
             }
         });
+
+        jScrollPane1.setBackground(new java.awt.Color(10, 25, 47));
+
+        jLabel_yandan_foto.setBackground(new java.awt.Color(0, 102, 102));
+        jLabel_yandan_foto.setText("Kullanıcı Yandan Foto");
+        jLabel_yandan_foto.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jLabel_yandan_fotoMouseMoved(evt);
+            }
+        });
+        jLabel_yandan_foto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel_yandan_fotoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel_yandan_fotoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel_yandan_fotoMouseExited(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jLabel_yandan_foto);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -142,12 +196,12 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton_geri)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 652, Short.MAX_VALUE)
-                                .addComponent(jButton_ileri))
-                            .addComponent(jLabel_yandan_foto))))
-                .addContainerGap())
+                                .addGap(543, 543, 543)
+                                .addComponent(jButton_ileri)))))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,8 +211,8 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel_referans)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel_yandan_foto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_geri)
                     .addComponent(jButton_ileri, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -232,6 +286,26 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_jLabel_yandan_fotoMouseClicked
 
+    private void jLabel_yandan_fotoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_yandan_fotoMouseEntered
+        // TODO add your handling code here:
+        showZoom = true;
+        jLabel_yandan_foto.repaint();
+    }//GEN-LAST:event_jLabel_yandan_fotoMouseEntered
+
+    private void jLabel_yandan_fotoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_yandan_fotoMouseMoved
+        // TODO add your handling code here:
+        zoomX = evt.getX();
+        zoomY = evt.getY();
+        showZoom = true; // Tedbiren burada da true yapalım
+        jLabel_yandan_foto.repaint();
+    }//GEN-LAST:event_jLabel_yandan_fotoMouseMoved
+
+    private void jLabel_yandan_fotoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_yandan_fotoMouseExited
+        // TODO add your handling code here:
+        showZoom = false;
+        jLabel_yandan_foto.repaint();
+    }//GEN-LAST:event_jLabel_yandan_fotoMouseExited
+
 
     public static void main(String args[]) {
         
@@ -249,6 +323,7 @@ public class YandanAnalizFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_referans;
     private javax.swing.JLabel jLabel_yandan_foto;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
    
